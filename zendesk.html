@@ -1,0 +1,68 @@
+<script type="text/x-red" data-template-name="ZendeskConfig">
+      <div class="form-row">
+        <label for="node-config-input-username"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-config-input-username">
+    </div>
+        <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-lock"></i> Token</label>
+        <input type="password" id="node-config-input-token">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-remoteUri"><i class="fa fa-database"></i> Remote URI</label>
+        <input type="text" id="node-config-input-remoteUri">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ZendeskConfig', {
+        category: 'config',
+        defaults: {
+            username: {value:"",required:true},
+            token: {value:"",required:true},
+            remoteUri: {value:"",required:true}
+        },
+        credentials: {
+            username: {type: "text"},
+            token: {type: "password"}
+        },
+        label: function() {
+            return this.remoteUri;
+        }
+    });
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('zendesk', {
+    category: 'storage',
+    color: '#87A980',
+    defaults: {
+      zendeskConfig: {type:"ZendeskConfig",required:true}
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "file.png",
+    label: function () {
+      return "zendesk";
+    }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="zendesk">
+  <div class="form-row">
+    <label for="node-input-zendeskConfig"><i class="fa fa-database"></i> Keyspace</label>
+    <input type="text" id="node-input-zendeskConfig">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="zendesk">
+  <p>ZenDesk node.</p>
+  <p>
+    Creates a new ticket or updates an existing ticket with ID taken from
+    msg.ticketId.
+  </p>
+  <p>
+    Fields:
+    subject (string), comment ({ body (string) }), type (string), custom_fields
+    ([ { id (integer), value (string) } ]).
+  </p>
+</script>
