@@ -10,7 +10,7 @@
   },
   "keywords": [
     "node-red",
-    "assert"
+    "zendesk"
   ],
   "dependencies": {
     "node-zendesk": "^1.3.0"
