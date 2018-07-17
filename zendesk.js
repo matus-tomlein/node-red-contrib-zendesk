@@ -25,7 +25,37 @@ module.exports = function (RED) {
     }
   });
 
-  function Zendesk(config) {
+  function ReadZendesk(config) {
+    RED.nodes.createNode(this, config);
+
+    var node = this;
+
+    node.zendeskConfig = RED.nodes.getNode(config.zendeskConfig);
+
+    if (node.zendeskConfig) {
+      node.zendeskConfig.connect();
+
+      node.on('input', function (msg) {
+        var cb = function(err, req, result) {
+          if (err || req.statusCode >= 400) {
+            node.error(err, msg);
+          } else {
+            msg.payload = result;
+            node.send(msg);
+          }
+        };
+
+        node.zendeskConfig.client.tickets.show(msg.ticketId, cb);
+      });
+    }
+    else {
+      node.error('ZenDesk connection not configured');
+    }
+  }
+
+  RED.nodes.registerType('zendesk-read', ReadZendesk);
+
+  function WriteZendesk(config) {
     RED.nodes.createNode(this, config);
 
     var node = this;
@@ -61,5 +91,36 @@ module.exports = function (RED) {
     }
   }
 
-  RED.nodes.registerType('zendesk', Zendesk);
+  RED.nodes.registerType('zendesk-write', WriteZendesk);
+
+  function ReadZendeskComments(config) {
+    RED.nodes.createNode(this, config);
+
+    var node = this;
+
+    node.zendeskConfig = RED.nodes.getNode(config.zendeskConfig);
+
+    if (node.zendeskConfig) {
+      node.zendeskConfig.connect();
+
+      node.on('input', function (msg) {
+        var cb = function(err, req, result) {
+          if (err || req.statusCode >= 400) {
+            node.error(err, msg);
+          } else {
+            msg.payload = result;
+            node.send(msg);
+          }
+        };
+
+        node.zendeskConfig.client.tickets.getComments(msg.ticketId, cb);
+      });
+    }
+    else {
+      node.error('ZenDesk connection not configured');
+    }
+  }
+
+  RED.nodes.registerType('zendesk-read-comments', ReadZendeskComments);
+
 };

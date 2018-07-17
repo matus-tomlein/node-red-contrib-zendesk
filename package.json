@@ -1,10 +1,10 @@
 {
   "name": "node-red-contrib-zendesk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NodeRED node type for managing tickets in ZenDesk",
   "author": "Matúš Tomlein",
   "license": "Apache-2.0",
-  "repository"   : {
+  "repository": {
     "type": "git",
     "url": "https://github.com/matus-tomlein/node-red-contrib-zendesk"
   },
