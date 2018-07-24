@@ -11,6 +11,7 @@ module.exports = function (RED) {
         node.client = zendesk.createClient({
           username: node.credentials.username,
           token: node.credentials.token,
+          disableGlobalState: true,
           remoteUri: config.remoteUri
         });
       }
