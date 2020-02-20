@@ -49,7 +49,7 @@ module.exports = function (RED) {
         if (msg.ticketId) {
           node.zendeskConfig.client.tickets.show(msg.ticketId, cb);
         } else if (msg.query) {
-          node.zendeskConfig.client.search.query(msg.query, cb);
+          node.zendeskConfig.client.search.queryAll(msg.query, cb);
         } else {
             node.error('No query or ticket ID given', msg);
         }
